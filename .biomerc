@@ -1,0 +1,8 @@
+{
+  "formatter": {
+    "lineWidth": 80,
+    "indentStyle": "space",
+    "indentSize": 2,
+    "trailingComma": "none"
+  }
+}
