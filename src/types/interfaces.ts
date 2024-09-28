@@ -1,3 +1,5 @@
+import type { Customer } from "@prisma/client"
+
 export interface CustomerRegisterRequest {
   id?: string
   name: string
@@ -12,3 +14,14 @@ export interface CustomerRegisterResponse {
   password_hash: string
   created_at?: Date | string
 }
+
+export interface GetCustomerRequest {
+  customerID: string
+}
+
+export interface GetCustomerResponse {
+  customer: Customer
+}
+
+
+export type CustomerWithoutSensitiveData = Omit<Customer, 'password_hash' | 'created_at'>
