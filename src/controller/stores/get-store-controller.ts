@@ -3,16 +3,16 @@ import { ResourceWasNotFoundedError } from "@/services/errors/resource-not-avail
 import { GetStoreUseCase } from "@/services/use-cases/stores/get-store/get-store"
 import type { FastifyReply, FastifyRequest } from "fastify"
 
-export default async function getStore(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+export default async function getStore(request: FastifyRequest<{ Params: { name: string } }>, reply: FastifyReply) {
   try {
     const prismaCustomerRepository = new PrismaMechanicRepository()
-    const getCustomer = new GetStoreUseCase(prismaCustomerRepository)
+    const getMechanicShop = new GetStoreUseCase(prismaCustomerRepository)
 
-    const { id } = request.params
+    const mechanicShopTitle = request.params.name
 
-    const store = await getCustomer.findStore({ storeID: id })
+    const store = await getMechanicShop.findStore(mechanicShopTitle)
 
-    reply.status(200).send({ MechanicShop: store })
+    reply.status(200).send(store)
 
   } catch (error) {
     // biome-ignore lint/correctness/noUnreachable: <explanation>
