@@ -10,3 +10,13 @@ export interface AppointmentRepository {
     appointmentTime: Date
   ): Promise<AppointmentResponse | null>
 }
+
+export interface AppointmentInMemoryInterface {
+  createAppointment(data: AppointmentResponse): Promise<AppointmentResponse>
+  findDuplicateAppointment(
+    customerId: string,
+    professionalName: string,
+    service: string,
+    appointmentTime: Date
+  ): Promise<AppointmentResponse>
+}
