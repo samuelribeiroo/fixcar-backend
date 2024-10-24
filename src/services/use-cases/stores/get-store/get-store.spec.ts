@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto"
 import { MechanicShopInMemoryRepository } from "@/repositories/in-memory/mechanic-shop-in-memory-repository"
 import { ResourceWasNotFoundedError } from "@/services/errors/resource-not-available-error"
-import { describe, expect, it, vitest, beforeEach } from "vitest"
+import { beforeEach, describe, expect, it, vitest } from "vitest"
 import { GetStoreUseCase } from "./get-store"
 
 describe('Use Case: Get Store', () => {
@@ -19,19 +19,19 @@ describe('Use Case: Get Store', () => {
       adress: 'R. Avenida Brigadeiro Faria Lima, Pinheiros. São Paulo-SP 05426-100',
     })
 
-  
-    expect(store.id).toEqual(expect.any(String))
+
+    expect(store.name).toEqual(expect.any(String))
   })
 
-  it('should not possible find a inexistent customer', async () => {
+  it('should do not possible find a inexistent ID', async () => {
     const inMemoryRepository = new MechanicShopInMemoryRepository()
     sut = new GetStoreUseCase(inMemoryRepository)
 
-    const store = sut.findStore({
-      storeID: 'inexistent-store'
-    })
+    const nonExistentStoreName = 'non-existent-store'
 
-    expect(store).rejects.toBeInstanceOf(ResourceWasNotFoundedError)
+    const isInexistentStore = sut.findStore(nonExistentStoreName)
+
+    await expect(isInexistentStore).rejects.toBeInstanceOf(ResourceWasNotFoundedError)
   })
 })
 

@@ -3,13 +3,10 @@ import { ResourceWasNotFoundedError } from "@/services/errors/resource-not-avail
 import type { GetStoreRequest } from "@/types/interfaces"
 
 export class GetStoreUseCase {
-  findAllMechanics() {
-    throw new Error("Method not implemented.")
-  }
   constructor(private getStoreRepository: MechanicShopRepository) { }
 
-  async findStore({ storeID }: GetStoreRequest) {
-    const handleGetStore = await this.getStoreRepository.findByID(storeID)
+  async findStore(name: string) {
+    const handleGetStore = await this.getStoreRepository.findByName(name)
 
     if (!handleGetStore) throw new ResourceWasNotFoundedError()
 

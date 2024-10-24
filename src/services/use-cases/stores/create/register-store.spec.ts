@@ -15,7 +15,7 @@ describe('Use Case: Register Store', () => {
         }
       },
       
-      async findByID(id) {
+      async findByName(name) {
         return null
       },
 
