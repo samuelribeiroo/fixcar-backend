@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id String @unique @default(uuid())
+  name String
+  email String @unique
+  password_hash String
+  created_at DateTime @default(now())
+
+  customerMechanicShops CustomerMechanicShop[]
+  appointment Appointment[]
+}
+
+model MechanicShop {
+  id String @unique @default(uuid())
+  name String @unique
+  adress String
+
+  customerMechanicShops CustomerMechanicShop[]
+
+  Professional Professional[]
+
+  Appointment Appointment[]
+}
+
+model CustomerMechanicShop {
+  customer Customer  @relation(fields: [customerId], references: [id])
+  customerId String
+  mechanicShop MechanicShop @relation(fields: [mechanicShopId], references: [id])
+  mechanicShopId String
+
+  @@id([customerId, mechanicShopId]) 
+}
+
+model Professional {
+  id             String        @id @default(uuid())
+  name           String
+  mechanicShop   MechanicShop  @relation(fields: [mechanicShopId], references: [id])
+  mechanicShopId String
+  appointments    Appointment[]  @relation("ProfessionalAppointments")
+}
+
+model Appointment {
+  id String @unique @default(uuid())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  professional  Professional @relation("ProfessionalAppointments", fields: [professionalId], references: [id])
+  professionalId String
+  storeId String
+  store MechanicShop @relation(fields: [storeId], references: [id])
+  appointmentTime DateTime
+  created_at DateTime @default(now())
+  expiresAt  DateTime
+  service String
+
+   @@map("appointments")
+}
+

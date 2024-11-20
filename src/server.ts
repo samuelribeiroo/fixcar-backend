@@ -1,10 +1,4 @@
-import { fastify } from "fastify"
-
-const app = fastify()
-
-app.get("/", (request, reply) => {
-  return reply.send({ message: "Servidor subiu." })
-});
+import { app } from "@/app"
 
 app
   .listen({
